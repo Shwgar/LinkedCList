@@ -2,16 +2,28 @@
 #include "DisplayMessageEndpoint.h"
 #include <Windows.h>
 #include "LinkedList.h"
+#include "LRUCache.h"
+#include <cstring>
 
 std::string GetDestinationFrom(int destinationId, LinkedList *linkedList)
 {
-	LinkedList *LRUCache = linkedList;
-	if (true)
-	{
-
-	}
+	LRUCache *lruCache = new LRUCache;
 	DisplayMessageDestinationService service;
-	return service.GetDestinationName(destinationId);
+	std::string returnString = lruCache->ReturnAndSortIfExists(linkedList, destinationId);
+	if (returnString != "")
+	{
+		return returnString;
+	}
+	else if (returnString == "")
+	{
+		std::string inputString = service.GetDestinationName(destinationId);
+		//const char *txt = &inputString[0u];
+		lruCache->AddToLinkedList(linkedList, destinationId, inputString.c_str());
+		return inputString;
+	}
+
+	//DisplayMessageDestinationService service;
+	//return service.GetDestinationName(destinationId);
 	//This call is really slow!!!
 
 	//Uppgift: Skapa en LRU cache...
@@ -43,6 +55,7 @@ std::string GetDestinationFrom(int destinationId, LinkedList *linkedList)
 void main()
 {
 	LinkedList *linkedList = new LinkedList;
+	linkedList->count = 0;
 	SetConsoleOutputCP(1252);
 
 	DisplayMessageEndpoint *endPoint = new DisplayMessageEndpoint();

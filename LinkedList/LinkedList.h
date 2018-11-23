@@ -1,6 +1,8 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <stddef.h>
 #include <stdlib.h>
+
 
 struct Node
 {
@@ -17,9 +19,3 @@ typedef struct
 	struct Node *last;
 
 }LinkedList;
-
-void AddToLinkedList(LinkedList *linkedList, int id, char *txt); //göra dessa i CPP?
-
-struct Node* ReturnAndSortIfExists(LinkedList *linkedList, int id);
-
-
