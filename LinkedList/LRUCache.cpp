@@ -19,10 +19,11 @@ void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
 std::string LRUCache::ReturnAndSortIfExists(LinkedList *linkedList, int id) //Kolla om ID finns och Node pekaren
 {
 	struct Node *temp = NULL;
-	for (int i = 0; i < linkedList->count - 1; i++)
+	for (int i = 0; i <= linkedList->count-1; i++)
 	{
-		if (id == linkedList->first->id)
+		if (i == 0 && id == linkedList->first->id)
 		{
+			std::cout << "Hittade i LRU på plats " << i + 1 << std::endl;
 			return linkedList->first->txt;
 		}
 		else
@@ -33,14 +34,18 @@ std::string LRUCache::ReturnAndSortIfExists(LinkedList *linkedList, int id) //Ko
 			}
 			else
 			{
-				if (id == temp->id && i <= linkedList->count)
+				if (id == temp->id && i <= linkedList->count -1)
 				{
+					std::cout << "Hittade i LRU på plats " << i + 1 << std::endl;
 					temp->previous->next = temp->next;
 					if (temp->next != NULL)
 					{
 						temp->next->previous = temp->previous;
 					}
-
+					else if (temp->next == NULL)
+					{
+						linkedList->last = temp->previous;
+					}
 					temp->next = linkedList->first;
 					linkedList->first->previous = temp;
 					temp->previous = NULL;

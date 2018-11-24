@@ -65,4 +65,6 @@ void main()
 			<< "      " << nextDisplayMessage.track << "  " << GetDestinationFrom(nextDisplayMessage.destinationId, linkedList, lruCache)
 			<< std::endl;
 	}
+	delete linkedList;
+	delete lruCache;
 }
