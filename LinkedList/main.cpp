@@ -5,9 +5,8 @@
 #include "LRUCache.h"
 #include <cstring>
 
-std::string GetDestinationFrom(int destinationId, LinkedList *linkedList)
+std::string GetDestinationFrom(int destinationId, LinkedList *linkedList, LRUCache *lruCache)
 {
-	LRUCache *lruCache = new LRUCache;
 	DisplayMessageDestinationService service;
 	std::string returnString = lruCache->ReturnAndSortIfExists(linkedList, destinationId);
 	if (returnString != "")
@@ -17,7 +16,6 @@ std::string GetDestinationFrom(int destinationId, LinkedList *linkedList)
 	else if (returnString == "")
 	{
 		std::string inputString = service.GetDestinationName(destinationId);
-		//const char *txt = &inputString[0u];
 		lruCache->AddToLinkedList(linkedList, destinationId, inputString.c_str());
 		return inputString;
 	}
@@ -55,6 +53,7 @@ std::string GetDestinationFrom(int destinationId, LinkedList *linkedList)
 void main()
 {
 	LinkedList *linkedList = new LinkedList;
+	LRUCache *lruCache = new LRUCache;
 	linkedList->count = 0;
 	SetConsoleOutputCP(1252);
 
@@ -63,7 +62,7 @@ void main()
 	{
 		DisplayMessageEndpoint::DisplayEntry nextDisplayMessage = endPoint->GetDisplayMessage();
 		std::cout << nextDisplayMessage.time << "   " << nextDisplayMessage.newTime 
-			<< "      " << nextDisplayMessage.track << "  " << GetDestinationFrom(nextDisplayMessage.destinationId, linkedList)
+			<< "      " << nextDisplayMessage.track << "  " << GetDestinationFrom(nextDisplayMessage.destinationId, linkedList, lruCache)
 			<< std::endl;
 	}
 }

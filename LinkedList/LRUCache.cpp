@@ -1,4 +1,3 @@
-#define ForI(l) for(int i = 0, i < l, i++)
 #include "LRUCache.h"
 
 void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
@@ -6,9 +5,9 @@ void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
 
 	struct Node* newNode = new struct Node();
 	newNode->id = id;
-	//strcpy(newNode->txt, txt);
 	newNode->txt = (char*)malloc(sizeof(char) * strlen(txt) + 1);
 	strcpy(newNode->txt, txt);
+
 	
 
 	if (linkedList->count == 0) //Om listan är tom
@@ -29,7 +28,9 @@ void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
 	else if (linkedList->count == 10) //om listan är full
 	{
 		linkedList->last = linkedList->last->previous;
-		free(linkedList->last->next);
+		free(linkedList->last->next->txt);
+		linkedList->last->next->previous = NULL;
+		delete(linkedList->last->next);
 		linkedList->last->next = NULL;
 		newNode->next = linkedList->first;
 		linkedList->first->previous = newNode;
@@ -61,10 +62,15 @@ std::string LRUCache::ReturnAndSortIfExists(LinkedList *linkedList, int id) //Ko
 					{
 						temp->next->previous = temp->previous;
 					}
+
+					temp->next = linkedList->first;
+					linkedList->first->previous = temp;
+					temp->previous = NULL;
 					linkedList->first = temp;
 					return temp->txt;
 				}
 				temp = temp->next;
+
 			}
 
 		}
