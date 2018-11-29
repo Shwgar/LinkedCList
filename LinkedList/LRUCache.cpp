@@ -2,28 +2,25 @@
 
 void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
 {
-
-	if (linkedList->count <10) //Om listan innehåller mindre än 10st
+	if (linkedList->count <10)
 	{
 		AddToList(linkedList, id, txt);
 		linkedList->count = linkedList->count + 1;
-	}
-	
-	else if (linkedList->count == 10) //om listan är full
+	}	
+	else if (linkedList->count == 10)
 	{
 		DeleteLastFromList(linkedList);
 		AddToList(linkedList, id, txt);
 	}
 }
 
-std::string LRUCache::GetAndSort(LinkedList *linkedList, int id) //Kolla om ID finns och Node pekaren
+std::string LRUCache::GetAndSort(LinkedList *linkedList, int id)
 {
 	struct Node *temp = NULL;
 	for (int i = 0; i <= linkedList->count-1; i++)
 	{
 		if (i == 0 && id == linkedList->first->id)
 		{
-			std::cout << "Hittade i LRU på plats " << i + 1 << std::endl;
 			return linkedList->first->txt;
 		}
 		else
@@ -36,7 +33,6 @@ std::string LRUCache::GetAndSort(LinkedList *linkedList, int id) //Kolla om ID f
 			{
 				if (id == temp->id && i <= linkedList->count -1)
 				{
-					std::cout << "Hittade i LRU på plats " << i + 1 << std::endl;
 					temp->previous->next = temp->next;
 					if (temp->next != NULL)
 					{
@@ -53,9 +49,7 @@ std::string LRUCache::GetAndSort(LinkedList *linkedList, int id) //Kolla om ID f
 					return temp->txt;
 				}
 				temp = temp->next;
-
 			}
-
 		}
 	}
 	return std::string();
