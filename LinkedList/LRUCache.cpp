@@ -14,7 +14,25 @@ void LRUCache::AddToLinkedList(LinkedList *linkedList, int id, const char *txt)
 	}
 }
 
-std::string LRUCache::GetAndSort(LinkedList *linkedList, int id)
+void LRUCache::MoveToFront(LinkedList *linkedList, Node *node)
+{
+	
+	node->previous->next = node->next;
+	if (node->next != NULL)
+	{
+		node->next->previous = node->previous;
+	}
+	else if (node->next == NULL)
+	{
+		linkedList->last = node->previous;
+	}
+	node->next = linkedList->first;
+	linkedList->first->previous = node;
+	node->previous = NULL;
+	linkedList->first = node;
+}
+
+std::string LRUCache::Get(LinkedList *linkedList, int id)
 {
 	struct Node *temp = NULL;
 	for (int i = 0; i <= linkedList->count-1; i++)
@@ -33,19 +51,7 @@ std::string LRUCache::GetAndSort(LinkedList *linkedList, int id)
 			{
 				if (id == temp->id && i <= linkedList->count -1)
 				{
-					temp->previous->next = temp->next;
-					if (temp->next != NULL)
-					{
-						temp->next->previous = temp->previous;
-					}
-					else if (temp->next == NULL)
-					{
-						linkedList->last = temp->previous;
-					}
-					temp->next = linkedList->first;
-					linkedList->first->previous = temp;
-					temp->previous = NULL;
-					linkedList->first = temp;
+					MoveToFront(linkedList, temp);
 					return temp->txt;
 				}
 				temp = temp->next;

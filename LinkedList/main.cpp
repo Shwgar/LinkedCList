@@ -8,7 +8,7 @@
 std::string GetDestinationFrom(int destinationId, LinkedList *linkedList, LRUCache *lruCache)
 {
 	DisplayMessageDestinationService service;
-	std::string returnString = lruCache->GetAndSort(linkedList, destinationId);
+	std::string returnString = lruCache->Get(linkedList, destinationId);
 	if (returnString != "")
 	{
 		return returnString;
