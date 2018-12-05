@@ -56,7 +56,7 @@ int DisplayMessageEndpoint::RandomizeDestination()
 
 std::string DisplayMessageDestinationService::GetDestinationName(int id)
 {
-	Sleep(3000);
+	Sleep(1);
 	return destinations[id];
 }
 

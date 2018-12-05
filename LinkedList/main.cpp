@@ -12,6 +12,7 @@ std::string GetDestinationFrom(int destinationId, LinkedList *linkedList, LRUCac
 	if (returnString != "")
 	{
 		return returnString;
+		int;
 	}
 	else if (returnString == "")
 	{
